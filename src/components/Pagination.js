@@ -1,15 +1,18 @@
 import React from 'react'
 import { useState } from 'react'
-function Pagination() {
+function Pagination(props) {
   let [pageNumber, setPageNumber] = useState(1);
 
   const increasePageNumber = () => {
     setPageNumber(pageNumber + 1);
+    props.globalPage(pageNumber + 1);
   }
 
   const decreasePageNumber = () => {
-    if(pageNumber > 1)
+    if(pageNumber > 1){
       setPageNumber(pageNumber - 1);
+      props.globalPage(pageNumber - 1);
+    }
   }
 
   return (
