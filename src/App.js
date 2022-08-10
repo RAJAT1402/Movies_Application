@@ -2,32 +2,27 @@ import React,{useState} from 'react'
 import NavBar from './components/NavBar';
 import Banner from './components/Banner';
 import Movies from './components/Movies';
-import Pagination from './components/Pagination';
 import Favourites from './components/Favourites';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
+  let [darkTheme, setDarkTheme] = useState(false);
 
-    let [gPage, setGpage] = useState(1);
-
-    const globalPage = (pgno) => {
-        setGpage(pgno);
-    }
-  
   return (
+    <div className={darkTheme ? 'dark bg-gray-900' : ''}>
+
     <BrowserRouter>
-        <NavBar />
+        <NavBar darkTheme={darkTheme} setDarkTheme={setDarkTheme}/>
         <Routes>
-            <Route path="/" 
-                element={<>
-                    <Banner />
-                    <Movies gPage={gPage}/>
-                    <Pagination globalPage={globalPage}/>
-                </>}
+            <Route path="/" element={<>
+                                      <Banner />
+                                      <Movies />
+                                    </>}
             />
             <Route path="/favourites" element={<Favourites />}/>
         </Routes>   
     </BrowserRouter>
+    </div>
   )
 }
 

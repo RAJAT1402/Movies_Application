@@ -1,24 +1,41 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Oval } from  'react-loader-spinner'
+import Pagination from './Pagination';
 
-function Movies(props) {
+function Movies() {
 
   let [movies, setMovies] = useState([]);
   let [hover, setHover] = useState("");
   let [favourites, SetFavourites] = useState([]);
+  let [pageNumber, setPageNumber] = useState(1);
+
+  const increasePageNumber = () => {
+    setPageNumber(pageNumber + 1);
+  }
+
+  const decreasePageNumber = () => {
+    if(pageNumber > 1)
+      setPageNumber(pageNumber - 1);
+  }
 
     useEffect(function(){
-        axios.get(`https://api.themoviedb.org/3/trending/movie/week?api_key=61509c80cbff1f80bd05efaeb3d53f55&page=${props.gPage}`).then((res)=>{
-            // console.table(res.data.results)
+
+        let oldFav = localStorage.getItem("imdb");
+        oldFav = JSON.parse(oldFav);
+        SetFavourites([...oldFav]);
+
+        axios.get(`https://api.themoviedb.org/3/trending/movie/week?api_key=61509c80cbff1f80bd05efaeb3d53f55&page=${pageNumber}`).then((res)=>{
+            console.table(res.data.results)
             setMovies(res.data.results)
             // console.log(movies.length)
         })
-    },[props.gPage])
+    },[pageNumber])
 
     const add = (movie) =>{
         let newArr = [...favourites, movie];
         SetFavourites(newArr);
+        localStorage.setItem("imdb", JSON.stringify(newArr));
         // console.log(newArr)
     }
 
@@ -27,11 +44,13 @@ function Movies(props) {
         let idx = newArr.indexOf(movie);
         newArr.splice(idx, 1);
         SetFavourites(newArr)
+        localStorage.setItem("imdb", JSON.stringify(newArr));
     }
 
   return (
+    <>
     <div className='mb-8'>
-        <div className='mt-8 mb-8 font-bold text-5xl text-center'>Trending Movies</div>
+        <div className='mt-8 mb-8 font-bold text-5xl text-center dark:text-white'>Trending Movies</div>
         {
             (movies.length != 0) ? <div className='flex flex-wrap justify-center'>
                                     {
@@ -50,7 +69,7 @@ function Movies(props) {
                                                         
                                                     </>
                                                 }
-                                                <div className='w-full bg-gray-900 text-center text-white rounded-b-xl'>{movie.title}</div>
+                                                <div className='w-full dark:bg-white dark:text-black bg-gray-900 text-center text-white rounded-b-xl'>{movie.title}</div>
                                             </div>
                                         ))
                                     }
@@ -62,6 +81,9 @@ function Movies(props) {
         }
         
     </div>
+
+    <Pagination pageNumber={pageNumber} increasePageNumber={increasePageNumber} decreasePageNumber={decreasePageNumber}/>
+    </>
   )
 }
 

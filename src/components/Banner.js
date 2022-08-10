@@ -16,9 +16,9 @@ function Banner() {
   return (
     <>
     {
-      topRatedMovie.length != 0 ? <div className={`bg-[url(https://image.tmdb.org/t/p/original/${topRatedMovie[2].backdrop_path})] h-[40vh] md:h-[60vh] bg-center bg-cover flex items-end justify-center`}>
+      topRatedMovie.length != 0 ? <div className={`bg-[url(https://image.tmdb.org/t/p/original/${topRatedMovie[5].backdrop_path})] h-[40vh] md:h-[60vh] bg-center bg-cover flex items-end justify-center`}>
                                       <div className='text-xl md:text-3xl text-white p-6 bg-gray-900 bg-opacity-50 w-full flex justify-center'>
-                                          {topRatedMovie[2].original_title}
+                                          {topRatedMovie[5].original_title}
                                       </div>
                                   </div>
                                 : <div>Loading...</div>
