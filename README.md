@@ -18,3 +18,6 @@
 -> Routing
 -> API 
 -> Hosting
+
+* check out deployment
+https://grand-madeleine-0252cd.netlify.app/
